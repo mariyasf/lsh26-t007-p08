@@ -1,0 +1,85 @@
+{
+  "team_id": "LSH26-T007",
+  "problem_id": "P08",
+  "repository_name": "lsh26-t007-p08",
+  "live_url": "https://github.com/mariyasf/lsh26-t007-p08",
+  "demo_video_url_optional": "",
+  "event_start_code": "LSH26-8490-C900",
+  "repository_created_before_release": true,
+  "pre_event_materials": [],
+  "sample_data": {
+    "loads_published_fixture": true,
+    "method": "Embedded published fixture in js/cases.js (from P08_school_results_public.json) as window.P08_DATA. Default load is PUB-01 (80 students, Class 9 and Class 10). Judges can open ?case=PUB-01 (or PUB-02…PUB-25) or call window.applyCase(caseObj) / window.applyCase(window.P08_DATA.cases[0]) in the browser console.",
+    "reset_instructions": "Reload index.html, or open ?case=PUB-01, or run window.applyCase(window.P08_DATA.cases[0]) in the browser console. That restores students, subjects and compulsory codes from the published case."
+  },
+  "problem_solving_method": "Vanilla HTML/CSS/JS single page with no build step so judges can open index.html immediately. Grade-point mapping, R-11 practical thresholds, R-12 absence, R-13 GPA/override and R-29 checking lists live in js/classify.js; the UI in js/app.js calls that layer, paginates tables, renders the per-student Trace modal and exposes window.applyCase.",
+  "requirements": {
+    "R1": {
+      "status": "complete",
+      "evidence": "Published PUB-01 loads 80 students across two classes (Class 9, Class 10). Every student has six compulsory subjects (BAN, ENG, MAT, PHY, CHE, BIO) plus one optional (HMT, AGR or REL). Practical subjects store {theory, practical}. Edge cases in the fixture include a strong average with one fail (S004), practical fail with passing theory (S010), optional GP ≤ 2 (S002), and absence in one subject (S032, S045). Roster from js/cases.js / P08_school_results_public.json; rendered in the Results Table (index.html, js/app.js)."
+    },
+    "R2": {
+      "status": "complete",
+      "evidence": "Each subject gets a grade point in js/classify.js (calculateSubject / calculateOptional). Final GPA = (sum of six compulsory GPs + max(0, optional GP − 2)) / 6, capped at 5.00, shown to 2 decimals (R-13). Compulsory fail forces GPA 0.00 and letter F (R-13). Letter grade from final GPA: A+ 5.00, A 4.00–4.99, A- 3.50–3.99, B 3.00–3.49, C 2.00–2.99, D 1.00–1.99, F fail (R-10). R-11: theory /75 pass 25, practical /25 pass 8; fail either → subject GP 0. R-12: compulsory AB → overall F; optional AB contributes 0. Table columns GPA, Grade, Status (index.html, js/app.js)."
+    },
+    "R3": {
+      "status": "complete",
+      "evidence": "Trace button on every results row opens a per-student calculation trace (openTrace / renderStudentTrace in js/app.js). For each compulsory subject and the optional, the modal shows the mark used (or AB), theory/practical split when relevant, the grade point, letter, and the rule that decided a fail (R-11 / R-12 tags plus fail reason). If a high uncancelled average still failed, the R-13 override box lists the subject(s) that caused GPA 0.00 F and keeps the uncancelled GPA visible."
+    },
+    "R4": {
+      "status": "complete",
+      "evidence": "Verification Lists tab (index.html) has three checking lists from generateCheckingLists in js/classify.js, matching R-29: optional list = optional GP ≤ 2.00 (absent optional counts); practical fail list = practical part below 8 in any subject; absent list = AB in any subject. A student can appear on more than one list. Counts are on the tab pills (tab-opt-count, tab-prac-count, tab-abs-count). PUB-01: optional 25, practical 10 students, absent 2."
+    }
+  },
+  "team_members": [
+    {
+      "registered_name": "Mariya Sultana",
+      "github_username": "mariyasf",
+      "major_contribution": "Implemented the Student Result Management app: published-fixture loader, GPA/grade-point engine (R-10–R-13), per-student traces, R-29 checking lists, paginated tables and the vanilla UI.",
+      "evidence_paths_or_commits": [
+        "index.html",
+        "css/styles.css",
+        "js/classify.js",
+        "js/app.js",
+        "js/cases.js",
+        "EVENT.md",
+        "5986ff28c341c4398d1448ba4f247fd3eeec0b8a",
+        "275d073c6d8ff722693b546ad4dc98d609f82818",
+        "4ec87b933a02cd47b71b7b522e9c831e696267d8",
+        "0ac88b65bf79dc80509f753e99f97b3d5c9f6738"
+      ]
+    },
+    {
+      "registered_name": "Muntasir Hasan",
+      "github_username": "mun7594",
+      "major_contribution": "Team member of LSH26-T007; owns the team GitHub organisation used for other problem submissions (e.g. lsh26-t007-p02).",
+      "evidence_paths_or_commits": [
+        "https://github.com/mun7594/lsh26-t007-p02"
+      ]
+    }
+  ],
+  "major_design_decisions": [
+    "No build / no framework so the app is one HTML file plus CSS and JS; judges can open index.html without npm.",
+    "Keep all grading rules in js/classify.js, separate from DOM code in js/app.js, so R-11/R-12/R-13/R-29 stay testable.",
+    "Read the published student shape (student.marks[code], case.subjects, case.compulsory) instead of a homemade roster.",
+    "Embed P08_school_results_public.json as js/cases.js (window.P08_DATA) because a file:// page cannot fetch a sibling JSON file.",
+    "Default to PUB-01; other published cases load with ?case=PUB-02 or window.applyCase.",
+    "Fixed-height paginated tables (8 rows plus filler rows) so short checking lists do not jump the layout."
+  ],
+  "known_limitations": [
+    "GitHub Pages is not enabled; live_url currently points at the GitHub repository. Judges can open index.html in a browser or serve the folder with python -m http.server 8080.",
+    "There is no in-header case picker; switching published cases is via ?case=PUB-xx or window.applyCase in the console.",
+    "Results are computed in-memory only; a full page reload restores the default (or URL-selected) published case.",
+    "Passing subjects in the Trace show mark and grade point; numbered rule tags (R-11, R-12) appear when those rules fire.",
+    "The practical checking list lists one row per failing practical subject, so a student with two practical fails appears twice on that list."
+  ],
+  "ai_tools_used": [
+    {
+      "tool": "Cursor",
+      "used_for": "Scaffolding the vanilla app, GPA/trace/checking-list UI, classify.js rules from the P08 brief, embedding the published fixture, and pagination.",
+      "how_output_was_verified": "Loaded PUB-01 from window.P08_DATA, confirmed 80 students / two classes / seven marks each, checked S004 uncancelled GPA 4.67 overridden to 0.00 F, confirmed R-29 list sizes (optional 25, practical 10 students, absent 2), and walked Trace plus Verification Lists in the running UI."
+    }
+  ],
+  "licenses_file": "LICENSES.md",
+  "declaration": "The information above is complete and truthful to the best of the team's knowledge."
+}
