@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Result Management System</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+  <div id="app">
+
+    <!-- ── HEADER ── -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="header-brand">
+          <div class="brand-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <div class="brand-title">Student Result Management</div>
+            <div class="brand-sub">Academic Result Processing &amp; Verification</div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <label class="case-picker">
+            <span>Case</span>
+            <select id="case-select" aria-label="Published case"></select>
+          </label>
+          <button id="btn-demo" class="btn-demo-main">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            View Sample
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── STATS CARDS ── -->
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Students</div>
+          <div class="stat-value" id="stat-total">—</div>
+        </div>
+        <div class="stat-card stat-pass">
+          <div class="stat-label">Passed</div>
+          <div class="stat-value" id="stat-passed">—</div>
+          <div class="stat-sub" id="stat-pass-rate">—</div>
+        </div>
+        <div class="stat-card stat-fail">
+          <div class="stat-label">Failed</div>
+          <div class="stat-value" id="stat-failed">—</div>
+        </div>
+        <div class="stat-card stat-gpa">
+          <div class="stat-label">Average GPA</div>
+          <div class="stat-value" id="stat-avg-gpa">—</div>
+        </div>
+        <div class="stat-card stat-review">
+          <div class="stat-label">Requiring Review</div>
+          <div class="stat-value" id="stat-review">—</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MAIN CONTENT ── -->
+    <main class="main-content">
+
+      <!-- Main tab nav -->
+      <nav class="main-tabs">
+        <button class="main-tab active" data-tab="results">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Results Table
+        </button>
+        <button class="main-tab" data-tab="checking">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          Verification Lists
+        </button>
+      </nav>
+
+      <!-- ── PANEL: Results ── -->
+      <div id="panel-results" class="tab-panel active">
+
+        <!-- Filter bar -->
+        <div class="filter-bar">
+          <div class="search-wrap">
+            <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" id="search-box" class="search-input" placeholder="Search by name or ID…"/>
+          </div>
+          <select id="filter-class" class="filter-select">
+            <option value="all">All Classes</option>
+          </select>
+          <select id="filter-status" class="filter-select">
+            <option value="all">All Status</option>
+            <option value="pass">Pass</option>
+            <option value="fail">Fail</option>
+          </select>
+          <select id="filter-grade" class="filter-select">
+            <option value="all">All Grades</option>
+            <option value="A+">A+</option>
+            <option value="A">A</option>
+            <option value="A-">A-</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="F">F</option>
+          </select>
+          <button id="clear-filters" class="btn-clear">Clear</button>
+          <div class="result-count-wrap">
+            <span id="result-count" class="result-count"></span>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-shell">
+          <div class="table-wrap">
+            <table class="results-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Student</th>
+                  <th>Class</th>
+                  <th>Optional Subject</th>
+                  <th>GPA</th>
+                  <th>Grade</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="results-tbody">
+                <tr class="row-empty"><td colspan="8">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-foot">
+            <span id="results-page-info">Showing 0 of 0</span>
+            <div class="pager">
+              <button type="button" id="results-page-prev" aria-label="Previous page">‹</button>
+              <button type="button" id="results-page-next" aria-label="Next page">›</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PANEL: Verification Lists ── -->
+      <div id="panel-checking" class="tab-panel">
+        <div class="check-tabs">
+          <button class="check-tab active" data-check="optional">
+            Optional Review
+            <span class="count-pill" id="tab-opt-count">0</span>
+          </button>
+          <button class="check-tab" data-check="practical">
+            Practical Failure
+            <span class="count-pill" id="tab-prac-count">0</span>
+          </button>
+          <button class="check-tab" data-check="absence">
+            Absence Review
+            <span class="count-pill" id="tab-abs-count">0</span>
+          </button>
+        </div>
+
+        <div id="check-optional" class="check-panel active">
+          <div class="check-description">
+            Students where optional subject GP ≤ 2.00 (no bonus contribution) or absent in optional.
+          </div>
+          <div class="table-shell">
+            <div class="table-wrap">
+              <table class="check-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Student</th>
+                    <th>Class</th>
+                    <th>Optional</th>
+                    <th>GP</th>
+                    <th>Reason</th>
+                  </tr>
+                </thead>
+                <tbody id="optional-tbody"></tbody>
+              </table>
+            </div>
+            <div class="table-foot">
+              <span id="optional-page-info">Showing 0 of 0</span>
+              <div class="pager">
+                <button type="button" id="optional-page-prev" aria-label="Previous optional page">‹</button>
+                <button type="button" id="optional-page-next" aria-label="Next optional page">›</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="check-practical" class="check-panel">
+          <div class="check-description">
+            Students with a practical part below 8 in any subject. Rule R-29.
+          </div>
+          <div class="table-shell">
+            <div class="table-wrap">
+              <table class="check-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Student</th>
+                    <th>Class</th>
+                    <th>Subject</th>
+                    <th>Theory</th>
+                    <th>Practical</th>
+                    <th>Reason</th>
+                  </tr>
+                </thead>
+                <tbody id="practical-tbody"></tbody>
+              </table>
+            </div>
+            <div class="table-foot">
+              <span id="practical-page-info">Showing 0 of 0</span>
+              <div class="pager">
+                <button type="button" id="practical-page-prev" aria-label="Previous practical page">‹</button>
+                <button type="button" id="practical-page-next" aria-label="Next practical page">›</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="check-absence" class="check-panel">
+          <div class="check-description">
+            Students with AB in any subject. Compulsory absence → result F. Optional absence → bonus 0.
+          </div>
+          <div class="table-shell">
+            <div class="table-wrap">
+              <table class="check-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Student</th>
+                    <th>Class</th>
+                    <th>Subject</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="absence-tbody"></tbody>
+              </table>
+            </div>
+            <div class="table-foot">
+              <span id="absence-page-info">Showing 0 of 0</span>
+              <div class="pager">
+                <button type="button" id="absence-page-prev" aria-label="Previous absence page">‹</button>
+                <button type="button" id="absence-page-next" aria-label="Next absence page">›</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ── FOOTER ── -->
+    <footer class="site-footer">
+      <div>Student Result Management System</div>
+      <div class="footer-rules">Rules: R-11 (Practical Threshold) &bull; R-12 (Absence) &bull; R-13 (GPA &amp; Override)</div>
+    </footer>
+
+  </div>
+
+  <!-- ── TRACE MODAL ── -->
+  <div id="trace-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Student Calculation Trace">
+    <div class="modal-box">
+      <button id="modal-close" class="modal-close" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="modal-title">Calculation Trace</div>
+      <div id="trace-content" class="trace-content"></div>
+    </div>
+  </div>
+
+  <script src="js/cases.js"></script>
+  <script src="js/classify.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
