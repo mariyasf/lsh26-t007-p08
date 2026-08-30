@@ -81,7 +81,8 @@ body {
   color: rgba(255,255,255,0.45);
   letter-spacing: 0.03em;
 }
-.header-brand { display: flex; align-items: center; gap: 14px; }
+
+/* ── STATS ── */
 .stats-section {
   background: var(--navy-light);
   padding: 18px 24px;

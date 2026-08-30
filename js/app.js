@@ -515,30 +515,11 @@ function init() {
     btn.addEventListener('click', () => switchCheckTab(btn.dataset.check));
   });
 
-  document.getElementById('btn-demo').addEventListener('click', () => {
-    if (!ALL_RESULTS.length) return;
-    switchMainTab('results');
-    FILTER_STATE = { search: '', class: 'all', status: 'all', grade: 'all' };
-    PAGE_STATE.results = 1;
-    document.getElementById('search-box').value    = '';
-    document.getElementById('filter-class').value  = 'all';
-    document.getElementById('filter-status').value = 'all';
-    document.getElementById('filter-grade').value  = 'all';
-    renderTable();
-    setTimeout(() => openTrace(sampleStudentId()), 100);
-  });
-
-  document.getElementById('case-select').addEventListener('change', e => {
-    const next = findCase(e.target.value);
-    if (next) applyCase(next);
-  });
-
   window.applyCase = applyCase;
 
   try {
     const data = loadPublishedFixture();
     P08_CASES = data.cases;
-    populateCaseSelect(P08_CASES, 'PUB-01');
     const requested = new URLSearchParams(location.search).get('case');
     applyCase(findCase(requested) || P08_CASES[0]);
   } catch (err) {
