@@ -1,30 +1,30 @@
 /* ───────────────────────────────────────────
    styles.css — Student Result Management System
-   Design: clean administrative dashboard
-   Palette: slate navy + gold accent + semantic reds/greens
+   Design: light administrative dashboard
 ─────────────────────────────────────────── */
 
 :root {
-  --navy:       #1a2744;
-  --navy-light: #243358;
-  --navy-mid:   #2e4272;
-  --gold:       #d4a843;
-  --gold-dark:  #b8901e;
-  --pass:       #22864a;
-  --pass-bg:    #e8f7ed;
-  --fail:       #c0392b;
-  --fail-bg:    #fdf1f0;
-  --warn:       #d68910;
-  --warn-bg:    #fef9ec;
-  --bg:         #f0f2f7;
+  --navy:       #0f2744;
+  --navy-mid:   #1d4ed8;
+  --blue:       #2563eb;
+  --blue-soft:  #dbeafe;
+  --pass:       #16a34a;
+  --pass-bg:    #dcfce7;
+  --fail:       #dc2626;
+  --fail-bg:    #fee2e2;
+  --warn:       #ea580c;
+  --warn-bg:    #ffedd5;
+  --purple:     #7c3aed;
+  --purple-bg:  #ede9fe;
+  --bg:         #f4f6f9;
   --surface:    #ffffff;
-  --border:     #d8dde8;
-  --text-main:  #1a2744;
-  --text-mid:   #4a5568;
-  --text-soft:  #8a95a8;
-  --radius:     8px;
-  --shadow:     0 2px 8px rgba(26,39,68,0.10);
-  --shadow-md:  0 4px 20px rgba(26,39,68,0.15);
+  --border:     #e5e7eb;
+  --text-main:  #0f2744;
+  --text-mid:   #64748b;
+  --text-soft:  #94a3b8;
+  --radius:     12px;
+  --shadow:     none;
+  --shadow-md:  0 12px 32px rgba(15,39,68,0.12);
   --table-row-h:  48px;
   --table-head-h: 42px;
   --table-foot-h: 46px;
@@ -36,7 +36,7 @@
 html { font-size: 15px; scroll-behavior: smooth; }
 
 body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: Inter, 'Segoe UI', system-ui, -apple-system, sans-serif;
   background: var(--bg);
   color: var(--text-main);
   min-height: 100vh;
@@ -45,8 +45,8 @@ body {
 
 /* ── HEADER ── */
 .site-header {
-  background: var(--navy);
-  border-bottom: 3px solid var(--gold);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -54,79 +54,93 @@ body {
 .header-inner {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 14px 24px;
+  padding: 20px 24px 16px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 16px;
 }
 .header-brand { display: flex; align-items: center; gap: 14px; }
 .brand-icon {
-  width: 40px; height: 40px;
-  background: var(--navy-mid);
-  border: 1px solid rgba(212,168,67,0.4);
-  border-radius: 8px;
+  width: 44px; height: 44px;
+  background: var(--blue-soft);
+  border: none;
+  border-radius: 10px;
   display: grid; place-items: center;
-  color: var(--gold);
+  color: var(--blue);
   flex-shrink: 0;
 }
 .brand-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.02em;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
 }
 .brand-sub {
-  font-size: 0.72rem;
-  color: rgba(255,255,255,0.45);
-  letter-spacing: 0.03em;
+  font-size: 0.78rem;
+  color: var(--text-soft);
+  font-weight: 500;
 }
 
 /* ── STATS ── */
 .stats-section {
-  background: var(--navy-light);
-  padding: 18px 24px;
-  border-bottom: 1px solid rgba(0,0,0,0.12);
+  background: var(--bg);
+  padding: 8px 24px 8px;
 }
 .stats-grid {
   max-width: 1400px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
+  gap: 14px;
 }
 .stat-card {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.10);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 14px 18px;
+  padding: 16px 18px 18px;
   text-align: center;
-  transition: background 0.15s;
 }
-.stat-card:hover { background: rgba(255,255,255,0.10); }
+.stat-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.stat-icon {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  flex-shrink: 0;
+}
+.icon-total  { background: var(--blue-soft); color: var(--blue); }
+.icon-pass   { background: var(--pass-bg);   color: var(--pass); }
+.icon-fail   { background: var(--fail-bg);   color: var(--fail); }
+.icon-gpa    { background: var(--purple-bg); color: var(--purple); }
+.icon-review { background: var(--warn-bg);   color: var(--warn); }
 .stat-label {
   font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.09em;
-  color: rgba(255,255,255,0.45);
-  margin-bottom: 6px;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
 }
 .stat-value {
-  font-size: 1.9rem;
+  font-size: 2rem;
   font-weight: 800;
-  color: #ffffff;
-  line-height: 1;
+  color: var(--text-main);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
 }
 .stat-sub {
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.38);
+  font-size: 0.8rem;
+  color: var(--text-soft);
   margin-top: 4px;
+  font-weight: 500;
 }
-.stat-pass .stat-value  { color: #6ee89b; }
-.stat-fail .stat-value  { color: #f08080; }
-.stat-gpa  .stat-value  { color: var(--gold); }
-.stat-review .stat-value { color: #f0c060; }
+.stat-pass .stat-value   { color: var(--pass); }
+.stat-fail .stat-value   { color: var(--fail); }
+.stat-gpa  .stat-value   { color: var(--text-main); }
+.stat-review .stat-value { color: var(--warn); }
 
 /* ── MAIN CONTENT ── */
 .main-content {
@@ -156,11 +170,11 @@ body {
   border-radius: var(--radius) var(--radius) 0 0;
   transition: color 0.15s, border-color 0.15s, background 0.15s;
 }
-.main-tab:hover { color: var(--navy); background: rgba(26,39,68,0.04); }
+.main-tab:hover { color: var(--blue); background: var(--blue-soft); }
 .main-tab.active {
-  color: var(--navy);
-  border-bottom-color: var(--gold);
-  background: var(--surface);
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+  background: transparent;
 }
 
 /* ── TAB PANELS ── */
@@ -178,7 +192,6 @@ body {
   border-radius: var(--radius);
   padding: 12px 16px;
   margin-bottom: 16px;
-  box-shadow: var(--shadow);
 }
 .search-wrap {
   position: relative;
@@ -203,7 +216,7 @@ body {
   transition: border-color 0.15s;
   color: var(--text-main);
 }
-.search-input:focus { border-color: var(--navy-mid); }
+.search-input:focus { border-color: var(--blue); }
 .filter-select {
   padding: 8px 12px;
   border: 1px solid var(--border);
@@ -215,7 +228,7 @@ body {
   min-width: 120px;
   color: var(--text-main);
 }
-.filter-select:focus { border-color: var(--navy-mid); }
+.filter-select:focus { border-color: var(--blue); }
 .btn-clear {
   padding: 8px 14px;
   border: 1px solid var(--border);
@@ -240,7 +253,6 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -261,8 +273,8 @@ body {
 }
 .results-table thead,
 .check-table thead {
-  background: var(--navy);
-  color: rgba(255,255,255,0.75);
+  background: #f8fafc;
+  color: var(--text-soft);
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -275,6 +287,7 @@ body {
   text-align: left;
   white-space: nowrap;
   vertical-align: middle;
+  border-bottom: 1px solid var(--border);
 }
 .results-table tbody tr,
 .check-table tbody tr {
@@ -367,9 +380,9 @@ body {
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 .btn-trace:hover {
-  background: var(--navy);
+  background: var(--blue);
   color: #fff;
-  border-color: var(--navy);
+  border-color: var(--blue);
 }
 
 /* ── CHECKING SECTION ── */
@@ -392,11 +405,11 @@ body {
   transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 .check-tab.active {
-  background: var(--navy);
-  border-color: var(--navy);
+  background: var(--blue);
+  border-color: var(--blue);
   color: #fff;
 }
-.check-tab:hover:not(.active) { border-color: var(--navy-mid); color: var(--navy); }
+.check-tab:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
 .count-pill {
   background: rgba(255,255,255,0.18);
   border-radius: 10px;
@@ -464,8 +477,8 @@ body {
   line-height: 1;
 }
 .pager button:hover:not(:disabled) {
-  background: var(--navy);
-  border-color: var(--navy);
+  background: var(--blue);
+  border-color: var(--blue);
   color: #fff;
 }
 .pager button:disabled {
@@ -539,16 +552,17 @@ body {
 
 /* ── TRACE HEADER ── */
 .trace-header-info {
-  background: var(--navy);
+  background: #f8fafc;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px 20px;
   margin-bottom: 20px;
-  color: #fff;
+  color: var(--text-main);
 }
 .trace-student-id {
   font-family: monospace;
   font-size: 0.75rem;
-  color: rgba(255,255,255,0.42);
+  color: var(--text-soft);
   margin-bottom: 4px;
 }
 .trace-student-name {
@@ -561,7 +575,7 @@ body {
   gap: 14px;
   flex-wrap: wrap;
   font-size: 0.8rem;
-  color: rgba(255,255,255,0.55);
+  color: var(--text-mid);
 }
 .trace-final-grade {
   font-weight: 800;
@@ -692,8 +706,8 @@ body {
 .gpa-row span { color: var(--text-mid); }
 .gpa-row span small { font-size: 0.75em; color: var(--text-soft); }
 .gpa-row strong { font-size: 0.95rem; }
-.gpa-final { background: var(--navy-light); }
-.gpa-final span, .gpa-final strong { color: #fff; }
+.gpa-final { background: var(--blue-soft); }
+.gpa-final span, .gpa-final strong { color: var(--blue); }
 .final-fail { background: var(--fail) !important; }
 .final-fail span, .final-fail strong { color: #fff !important; }
 

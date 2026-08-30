@@ -27,12 +27,13 @@ function renderDashboard() {
                + (CHECKING.practicalFailure?.length || 0)
                + (CHECKING.absenceReview?.length || 0);
 
-  document.getElementById('stat-total').textContent    = total;
-  document.getElementById('stat-passed').textContent   = passed;
-  document.getElementById('stat-failed').textContent   = failed;
-  document.getElementById('stat-avg-gpa').textContent  = avgGPA;
-  document.getElementById('stat-review').textContent   = review;
-  document.getElementById('stat-pass-rate').textContent = ((passed / total) * 100).toFixed(1) + '%';
+  document.getElementById('stat-total').textContent     = total;
+  document.getElementById('stat-passed').textContent    = passed;
+  document.getElementById('stat-failed').textContent    = failed;
+  document.getElementById('stat-avg-gpa').textContent   = avgGPA;
+  document.getElementById('stat-review').textContent    = review;
+  document.getElementById('stat-pass-rate').textContent = total ? ((passed / total) * 100).toFixed(1) + '%' : '—';
+  document.getElementById('stat-fail-rate').textContent = total ? ((failed / total) * 100).toFixed(1) + '%' : '—';
 }
 
 // ═══════════════════════════════════════════════════════════════

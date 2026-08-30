@@ -10,4 +10,8 @@ Original HTML, CSS and JavaScript in this repository were written for LofiStack 
 
 ## Third-party assets
 
-No npm packages or third-party JavaScript libraries are bundled. The UI uses system fonts (`Segoe UI`, system-ui).
+No npm packages or other third-party JavaScript libraries are bundled.
+
+| Material | Source | License |
+|---|---|---|
+| Inter typeface | [Google Fonts](https://fonts.google.com/specimen/Inter) (loaded from `fonts.googleapis.com` in `index.html`) | SIL Open Font License 1.1 |
