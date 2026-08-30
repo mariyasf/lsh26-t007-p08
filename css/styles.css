@@ -81,47 +81,7 @@ body {
   color: rgba(255,255,255,0.45);
   letter-spacing: 0.03em;
 }
-.header-actions { display: flex; align-items: center; gap: 12px; }
-
-.case-picker {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: rgba(255,255,255,0.65);
-  font-size: 0.78rem;
-  font-weight: 600;
-}
-.case-picker select {
-  padding: 6px 10px;
-  border: 1px solid rgba(255,255,255,0.22);
-  border-radius: var(--radius);
-  background: var(--navy-mid);
-  color: #fff;
-  font-size: 0.8rem;
-  cursor: pointer;
-  outline: none;
-}
-.case-picker select:focus { border-color: var(--gold); }
-
-.btn-demo-main {
-  display: flex; align-items: center; gap: 6px;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.22);
-  color: rgba(255,255,255,0.75);
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 7px 14px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
-}
-.btn-demo-main:hover {
-  background: rgba(255,255,255,0.08);
-  border-color: var(--gold);
-  color: var(--gold);
-}
-
-/* ── STATS ── */
+.header-brand { display: flex; align-items: center; gap: 14px; }
 .stats-section {
   background: var(--navy-light);
   padding: 18px 24px;

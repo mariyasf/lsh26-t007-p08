@@ -386,23 +386,8 @@ function populateClassFilter(students) {
   }
 }
 
-function populateCaseSelect(cases, selectedId) {
-  const select = document.getElementById('case-select');
-  select.innerHTML = cases.map(c =>
-    `<option value="${escHtml(c.case_id)}">${escHtml(c.case_id)} (${c.students.length})</option>`
-  ).join('');
-  select.value = selectedId;
-}
-
 function findCase(id) {
   return P08_CASES.find(c => c.case_id === id) || null;
-}
-
-function sampleStudentId() {
-  const strongFail = ALL_RESULTS.find(r => r.overrideApplied && r.uncancelledGPA >= 3.5);
-  if (strongFail) return strongFail.student.id;
-  const anyFail = ALL_RESULTS.find(r => r.overrideApplied);
-  return (anyFail || ALL_RESULTS[0]).student.id;
 }
 
 function applyCase(caseObj) {
@@ -444,8 +429,6 @@ function applyCase(caseObj) {
   if (grade)  grade.value  = 'all';
 
   populateClassFilter(caseObj.students);
-  const caseSelect = document.getElementById('case-select');
-  if (caseSelect) caseSelect.value = caseObj.case_id;
 
   renderDashboard();
   renderTable();
